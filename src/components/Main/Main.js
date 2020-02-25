@@ -1,5 +1,5 @@
 import React from 'react';
-import TodoList from '/components/TodoList/TodoList';
+import TodoList from '../TodoList/TodoList';
 
 
 function Main () {
@@ -7,7 +7,7 @@ function Main () {
     <div>
       <input> </input>
       <h2>Task</h2> <h2> Actions </h2>
-      <TodoList className ="listItem" />
+      <TodoList />
     </div>
   );
 }
