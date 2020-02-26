@@ -4,7 +4,7 @@ function Footer() {
   return (
     <footer>
   {/* <img src=# ></img>*/}
-   BraineStation
+   <p><span>Braine</span>Station</p>
      </footer>
   );
 }
