@@ -63,3 +63,7 @@ footer span {
 .input-area {
   display: flex;
 }
+ul, li {
+  list-style-type: none;
+  margin-left: -15px;
+}
