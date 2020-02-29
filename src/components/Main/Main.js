@@ -9,7 +9,7 @@ function Main () {
     fetch('http://localhost:3004/posts')
       .then(response => response.json())
       .then(text =>  setTasks(text))
-  },[])
+    },[])
 
   console.log(tasks); //проверка
 

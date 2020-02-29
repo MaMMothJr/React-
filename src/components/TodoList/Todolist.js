@@ -6,13 +6,13 @@ import PropTypes from 'prop-types';
 function TodoList ({tasks}) {
   return (
     <ul>
-      {tasks.map(item => <TodoListItem key={item.id} tasks={item}/>)}
+      {tasks.map(item => <TodoListItem key={item.id} item={item}/>)}
     </ul>
   );
 }
 
 export default TodoList;
 
-TodoListItem.propTypes = {
-  optionalArray: React.PropTypes.array.isRequired
-};
+// TodoListItem.propTypes = {
+//   tasks: React.PropTypes.array.isRequired
+// };

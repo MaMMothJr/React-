@@ -2,10 +2,10 @@ import React from 'react';
 import TodoList from '../TodoList/TodoList';
 import PropTypes from 'prop-types';
 
-function TodoListItem({tasks}) {
+function TodoListItem({item}) {
   return (
     <li className="listItem">
-      <p>{tasks.title} (с) {tasks.author}</p>
+      <p>{item.title} (с) {item.author}</p>
       <button className="deleteButton">Delete</button>
       <button className="editeButton">Edite</button>
     </li>
@@ -14,6 +14,6 @@ function TodoListItem({tasks}) {
 
 export default TodoListItem;
 
-TodoListItem.propTypes = {
-  optionalObject: React.PropTypes.object.isRequired
-};
+// TodoListItem.propTypes = {
+//   item: React.PropTypes.object.isRequired
+// };
