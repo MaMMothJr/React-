@@ -4,7 +4,7 @@
     { "id": 2, "title": "Познать Redux", "author": "Требование надзирателя" },
     { "id": 3, "title": "Осилить Английский", "author": "Must have" },
     { "id": 4, "title": "Найти работу", "author": "Жена" },
-    { "id": 5, "title": "Поспать", "author": "Организм" },
+    { "id": 5, "title": "Поспать", "author": "Организм" }
   ],
   "comments": [
     { "id": 1, "body": "some comment", "postId": 1 }
