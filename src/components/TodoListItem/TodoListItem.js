@@ -1,12 +1,13 @@
 import React from 'react';
+import Main from '../Main/Main';
 
-function TodoListItem() {
+function TodoListItem({tasks}) {
   return (
-    <div className="listItem">
-      <p>ololo</p>
+    <li className="listItem">
+      <p>{tasks.title} (c) {tasks.author}</p>
       <button className="deleteButton">Delete</button>
       <button className="editeButton">Edite</button>
-    </div>
+    </li>
   );
 }
 
