@@ -14,6 +14,6 @@ function TodoListItem({item}) {
 
 export default TodoListItem;
 
-// TodoListItem.propTypes = {
-//   item: React.PropTypes.object.isRequired
-// };
+TodoListItem.propTypes = {
+  item: PropTypes.object.isRequired
+};

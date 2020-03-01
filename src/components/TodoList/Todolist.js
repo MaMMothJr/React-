@@ -13,6 +13,6 @@ function TodoList ({tasks}) {
 
 export default TodoList;
 
-// TodoListItem.propTypes = {
-//   tasks: React.PropTypes.array.isRequired
-// };
+TodoListItem.propTypes = {
+  tasks: PropTypes.array.isRequired
+};
