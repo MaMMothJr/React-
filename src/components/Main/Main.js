@@ -4,6 +4,8 @@ import TodoList from '../TodoList/TodoList';
 function Main () {
 
   const [tasks, setTasks] = useState([]);
+  const [newValueTodo, setNewValueTodo] = useState('');
+  const [newTodo, setNewTodo] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:3004/posts')
@@ -11,12 +13,29 @@ function Main () {
       .then(text =>  setTasks(text))
     },[])
 
-  console.log(tasks); //проверка
+  const addToTodo = event => {
+    if (event.key === 13)  {
+        setNewTodo([
+          ...tasks,
+          {
+            id: Date.now(),
+            title: newTodo,
+            author: 'It`s me'
+          }
+      ])
+    }
+    console.log('wrong key');
+  }
 
   return (
     <div>
       <div className="input-area">
-        <input placeholder="What shall i do today?" />
+        <input
+           placeholder="What shall i do today?"
+           type="text"
+           onChange={event => setNewValueTodo(event.target.value)}
+           onKeyPress={addToTodo}
+          />
         <button>+</button>
       </div>
       <div className="h2-main">
