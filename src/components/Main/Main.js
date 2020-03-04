@@ -1,11 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import TodoList from '../TodoList/TodoList';
 
 function Main () {
 
   const [tasks, setTasks] = useState([]);
   const [newValueTodo, setNewValueTodo] = useState('');
-  const [newTodo, setNewTodo] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:3004/posts')
@@ -13,18 +12,25 @@ function Main () {
       .then(text =>  setTasks(text))
     },[newValueTodo])
 
-  const addToTodo = (event) => {
+  const onInputChange = useCallback((event) => {
+    setNewValueTodo(event.target.value);
+  }, []);
+
+  const addToTodo = useCallback((event) => {
     if (event.key === 'Enter')  {
-        setNewTodo(
-          fetch('http://localhost:3004/posts', {
-            method:'POST',
-            body: JSON.stringify({title: newTodo}),
-            }
-          )
-        )
+      fetch('http://localhost:3004/posts', {
+        body: JSON.stringify({
+          author: 'It`s me',
+          title: newValueTodo,
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+      });
+      setNewValueTodo('');
     }
-    console.log('wrong key');
-  }
+  }, [newValueTodo]);
 
   return (
     <div>
@@ -32,8 +38,9 @@ function Main () {
         <input
           placeholder="What shall i do today?"
           type="text"
-          onChange={(event) => setNewValueTodo(event.target.value)}
-          onKeyPress={addToTodo} />
+          onChange={onInputChange}
+          onKeyPress={addToTodo}
+          value={newValueTodo} />
         <button>+</button>
       </div>
       <div className="h2-main">
@@ -42,6 +49,6 @@ function Main () {
       <TodoList tasks={tasks} />
     </div>
   );
-  }
+}
 
   export default Main;
