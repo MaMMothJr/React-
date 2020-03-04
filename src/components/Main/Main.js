@@ -42,6 +42,6 @@ function Main () {
       <TodoList tasks={tasks} />
     </div>
   );
-}
+  }
 
-export default Main;
+  export default Main;
