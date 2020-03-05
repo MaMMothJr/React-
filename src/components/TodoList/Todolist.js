@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 function TodoList ({tasks}) {
 
   const cb = {
-    textDecoration: "line-through"
+    textDecoration: "line-through" //не работает
   }
 
   const noCb = {

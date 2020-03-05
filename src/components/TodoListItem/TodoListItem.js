@@ -106,7 +106,7 @@ function TodoListItem({item}) {
                 type="text"
                 onChange={onInputChange}
               />
-            <button className="chek" type="checkbox"></button>
+            <button className="chek" type="checkbox"></button>  // не работает
             <button onClick={editeData} id="save">Save</button>
             <button onClick={closeModal}>Cancel</button>
             </form>
