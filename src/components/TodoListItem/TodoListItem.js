@@ -100,13 +100,13 @@ function TodoListItem({item}) {
           contentLabel="Example Modal"
         >
             <div>Edite mode</div>
-            <form onSubmit="3123" checked={item.isDone} onClick={done}>
+            <form onClick={done}>
                 <input
                 value={newValueTodo||item.title}
                 type="text"
                 onChange={onInputChange}
               />
-            <button type="checkbox"/>
+            <button className="chek" type="checkbox"></button>
             <button onClick={editeData} id="save">Save</button>
             <button onClick={closeModal}>Cancel</button>
             </form>

@@ -4,9 +4,18 @@ import Main from '../Main/Main';
 import PropTypes from 'prop-types';
 
 function TodoList ({tasks}) {
+
+  const cb = {
+    textDecoration: "line-through"
+  }
+
+  const noCb = {
+    textDecoration: "none"
+  }
+
   return (
     <ul>
-      {tasks.map(item => <TodoListItem key={item.id} item={item} checked={item.isDone} />)}
+      {tasks.map(item => <TodoListItem key={item.id} item={item} style={(item) => item.isDone? noCb : cb} />)}
     </ul>
   );
 }
