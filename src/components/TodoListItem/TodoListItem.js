@@ -1,10 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import Modal from 'react-modal';
 import TodoList from '../TodoList/TodoList';
 import PropTypes from 'prop-types';
 import Main from '../Main/Main';
 
 function TodoListItem({item}) {
+
+  const [newValueTodo, setNewValueTodo] = useState('');
 
   const customStyles = {
     content : {
@@ -18,14 +20,17 @@ function TodoListItem({item}) {
   };
 
   let subtitle;
-    const [modalIsOpen,setIsOpen] = useState(false);
-    function openModal() {
-      setIsOpen(true);
-    }
 
-    function closeModal(){
-      setIsOpen(false);
-    }
+  const [modalIsOpenDelete,setIsOpenDelete] = useState(false);
+  const [modalIsOpenEdite,setIsOpenEdite] = useState(false);
+
+  function openModal(event) {
+    event.target.id === "del" ? setIsOpenDelete(true) : setIsOpenEdite(true);
+  }
+
+  function closeModal(){
+    setIsOpenDelete(false);
+  }
 
   function deleteData() {
     fetch('http://localhost:3004/posts' + "/" + item.id, {
@@ -38,24 +43,60 @@ function TodoListItem({item}) {
     });
   }
 
+  const onInputChange = useCallback((event) => {
+    setNewValueTodo(event.target.value);
+  }, []);
+
+  const editeData = useCallback((event) => {
+    if (event.key === 'Enter' || event.target.id === "save" )  {
+      fetch('http://localhost:3004/posts' + "/" + item.id, {
+        body: JSON.stringify({
+          title: newValueTodo,
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+      });
+      setNewValueTodo('');
+    }
+  }, [newValueTodo]);
+
   return (
     <li className="listItem">
       <p>{item.title}</p>
-      <button className="deleteButton" onClick={openModal}>Delete</button>
+      <button className="deleteButton" onClick={openModal} id="del">Delete</button>
         <Modal
-          isOpen={modalIsOpen}
+          isOpen={modalIsOpenDelete}
           onRequestClose={closeModal}
           style={customStyles}
           contentLabel="Example Modal"
         >
             <div>Are u sure?</div>
             <form>
-              <input />
               <button onClick={deleteData}>Yes</button>
               <button onClick={closeModal}>No</button>
               </form>
           </Modal>
-      <button className="editeButton">Edite</button>
+      <button className="editeButton" onClick={openModal} id="edt">Edite</button>
+        <Modal
+          isOpen={modalIsOpenEdite}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+            <div>Edite mode</div>
+            <form onSubmit="3123">
+              <input
+                value={newValueTodo||item.title}
+                type="text"
+                onChange={onInputChange}
+                onKeyPress={editeData}
+              />
+            <button onClick={editeData} id="save">Save</button>
+              <button onClick={closeModal}>Cancel</button>
+              </form>
+          </Modal>
     </li>
   );
 }

@@ -20,7 +20,7 @@ function Main () {
     if (event.key === 'Enter')  {
       fetch('http://localhost:3004/posts', {
         body: JSON.stringify({
-          author: 'It`s me',
+          chekStatus: 'Added',
           title: newValueTodo,
         }),
         headers: {
