@@ -7,7 +7,7 @@ import Main from '../Main/Main';
 function TodoListItem({item}) {
 
   const [newValueTodo, setNewValueTodo] = useState('');
-
+  const [checkedStatus, setCheckedStatus] = useState({});
   const customStyles = {
     content : {
       top                   : '50%',
@@ -47,24 +47,38 @@ function TodoListItem({item}) {
     setNewValueTodo(event.target.value);
   }, []);
 
-  const editeData = useCallback((event) => {
-    if (event.key === 'Enter' || event.target.id === "save" )  {
-      fetch('http://localhost:3004/posts' + "/" + item.id, {
+  const editeData = useCallback(() => {
+    fetch('http://localhost:3004/posts' + "/" + item.id, {
         body: JSON.stringify({
           title: newValueTodo,
         }),
         headers: {
           'Content-Type': 'application/json'
         },
-        method: 'POST',
+        method: 'PATCH',
       });
       setNewValueTodo('');
-    }
-  }, [newValueTodo]);
+    }, [newValueTodo]);
+
+    const done = useCallback(() => {
+      const cb = {
+        textDecoration: "line-through"
+      }
+      fetch('http://localhost:3004/posts' + "/" + item.id, {
+        body: JSON.stringify({
+          isDone: true,
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'PATCH',
+      });
+      setCheckedStatus();
+    }, []);
 
   return (
     <li className="listItem">
-      <p>{item.title}</p>
+      <p style={checkedStatus}>{item.title}</p>
       <button className="deleteButton" onClick={openModal} id="del">Delete</button>
         <Modal
           isOpen={modalIsOpenDelete}
@@ -86,16 +100,16 @@ function TodoListItem({item}) {
           contentLabel="Example Modal"
         >
             <div>Edite mode</div>
-            <form onSubmit="3123">
-              <input
+            <form onSubmit="3123" checked={item.isDone} onClick={done}>
+                <input
                 value={newValueTodo||item.title}
                 type="text"
                 onChange={onInputChange}
-                onKeyPress={editeData}
               />
+            <button type="checkbox"/>
             <button onClick={editeData} id="save">Save</button>
-              <button onClick={closeModal}>Cancel</button>
-              </form>
+            <button onClick={closeModal}>Cancel</button>
+            </form>
           </Modal>
     </li>
   );

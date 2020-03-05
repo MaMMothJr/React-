@@ -1,43 +1,57 @@
 {
   "posts": [
     {
-      "id": 1,
-      "title": "Выучить React",
-      "author": "Внутренее я"
+      "isDone": false,
+      "title": "42412",
+      "id": 1
     },
     {
-      "id": 2,
-      "title": "Познать Redux",
-      "author": "Требование надзирателя"
+      "isDone": false,
+      "title": "1",
+      "id": 2
     },
     {
-      "id": 3,
-      "title": "Осилить Английский",
-      "author": "Must have"
+      "isDone": false,
+      "title": "1",
+      "id": 3
     },
     {
-      "id": 4,
-      "title": "Найти работу",
-      "author": "Жена"
+      "isDone": false,
+      "title": "2",
+      "id": 4
     },
     {
-      "author": "It`s me",
-      "title": "312312",
+      "isDone": true,
+      "title": "12",
       "id": 5
     },
     {
-      "author": "It`s me",
-      "title": "51251251",
+      "isDone": false,
+      "title": "512",
       "id": 6
-    }
-  ],
-  "comments": [
+    },
     {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "isDone": false,
+      "title": "51",
+      "id": 7
+    },
+    {
+      "isDone": false,
+      "title": "321",
+      "id": 8
+    },
+    {
+      "isDone": true,
+      "title": "512",
+      "id": 9
+    },
+    {
+      "isDone": true,
+      "title": "512347347345345",
+      "id": 10
     }
   ],
+  "comments": [],
   "profile": {
     "name": "typicode"
   }

@@ -20,7 +20,7 @@ function Main () {
     if (event.key === 'Enter')  {
       fetch('http://localhost:3004/posts', {
         body: JSON.stringify({
-          chekStatus: 'Added',
+          isDone: false,
           title: newValueTodo,
         }),
         headers: {
@@ -41,7 +41,7 @@ function Main () {
           onChange={onInputChange}
           onKeyPress={addToTodo}
           value={newValueTodo} />
-        <button>+</button>
+        <button onClick={addToTodo}>+</button>
       </div>
       <div className="h2-main">
           <h2>Task</h2> <h2>Actions</h2>

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 function TodoList ({tasks}) {
   return (
     <ul>
-      {tasks.map(item => <TodoListItem key={item.id} item={item}/>)}
+      {tasks.map(item => <TodoListItem key={item.id} item={item} checked={item.isDone} />)}
     </ul>
   );
 }
