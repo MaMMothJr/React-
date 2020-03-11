@@ -17,32 +17,31 @@ function Main () {
   }, []);
 
   const addToTodo = useCallback((event) => {
-    if (event.key === 'Enter')  {
-      fetch('http://localhost:3004/posts', {
-        body: JSON.stringify({
-          isDone: false,
-          title: newValueTodo,
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-      });
-      setNewValueTodo('');
-    }
+    event.preventDefault();
+    fetch('http://localhost:3004/posts', {
+      body: JSON.stringify({
+        isDone: false,
+        title: newValueTodo,
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+    });
+    setNewValueTodo('');
+
   }, [newValueTodo]);
 
   return (
     <div>
-      <div className="input-area">
+      <form className="input-area" onSubmit={addToTodo}>
         <input
           placeholder="What shall i do today?"
           type="text"
           onChange={onInputChange}
-          onKeyPress={addToTodo}
           value={newValueTodo} />
-        <button onClick={addToTodo}>+</button>
-      </div>
+        <button type="submit">+</button>
+      </form>
       <div className="h2-main">
           <h2>Task</h2> <h2>Actions</h2>
       </div>

@@ -4,7 +4,7 @@ import TodoList from '../TodoList/TodoList';
 import PropTypes from 'prop-types';
 import Main from '../Main/Main';
 
-function TodoListItem({item, isDone}) {
+function TodoListItem({item}) {
 
   const [newValueTodo, setNewValueTodo] = useState('');
   const [modalIsOpenDelete,setIsOpenDelete] = useState(false);
@@ -50,7 +50,7 @@ function TodoListItem({item, isDone}) {
   const editeData = useCallback(() => {
     fetch('http://localhost:3004/posts' + "/" + item.id, {
         body: JSON.stringify({
-          title: newValueTodo,
+          title: newValueTodo||item.title,
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -107,7 +107,7 @@ function TodoListItem({item, isDone}) {
             <button onClick={closeModal}>Cancel</button>
             <div className="isDone">
               <p> If it is done press sqr</p>
-              <input className="chek" type="checkbox" onSubmit={done} default={isDone}/>
+              <input className="chek" type="checkbox" onSubmit={done} checked={item.isDone}/>
             </div>
             </form>
         </Modal>
