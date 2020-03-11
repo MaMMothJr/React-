@@ -4,10 +4,12 @@ import TodoList from '../TodoList/TodoList';
 import PropTypes from 'prop-types';
 import Main from '../Main/Main';
 
-function TodoListItem({item}) {
+function TodoListItem({item, isDone}) {
 
   const [newValueTodo, setNewValueTodo] = useState('');
-  const [checkedStatus, setCheckedStatus] = useState({});
+  const [modalIsOpenDelete,setIsOpenDelete] = useState(false);
+  const [modalIsOpenEdite,setIsOpenEdite] = useState(false);
+
   const customStyles = {
     content : {
       top                   : '50%',
@@ -21,14 +23,11 @@ function TodoListItem({item}) {
 
   let subtitle;
 
-  const [modalIsOpenDelete,setIsOpenDelete] = useState(false);
-  const [modalIsOpenEdite,setIsOpenEdite] = useState(false);
-
   function openModal(event) {
     event.target.id === "del" ? setIsOpenDelete(true) : setIsOpenEdite(true);
   }
 
-  function closeModal(){
+  function closeModal() {
     setIsOpenDelete(false);
     setIsOpenEdite(false);
   }
@@ -62,17 +61,28 @@ function TodoListItem({item}) {
     }, [newValueTodo]);
 
     const done = useCallback(() => {
-      fetch('http://localhost:3004/posts' + "/" + item.id, {
-        body: JSON.stringify({
-        isDone: true,
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'PATCH',
-      });
-      setCheckedStatus();
-    }, []);
+      if (item.isDone === false) {
+        fetch('http://localhost:3004/posts' + "/" + item.id, {
+          body: JSON.stringify({
+            isDone: true,
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          method: 'PATCH',
+        });
+      } else {
+        fetch('http://localhost:3004/posts' + "/" + item.id, {
+          body: JSON.stringify({
+            isDone: false,
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          method: 'PATCH',
+        });
+      }
+  }, []);
 
   return (
     <li className="listItem">
@@ -97,7 +107,7 @@ function TodoListItem({item}) {
             <button onClick={closeModal}>Cancel</button>
             <div className="isDone">
               <p> If it is done press sqr</p>
-              <input className="chek" type="checkbox" />
+              <input className="chek" type="checkbox" onSubmit={done} default={isDone}/>
             </div>
             </form>
         </Modal>
