@@ -30,6 +30,7 @@ function TodoListItem({item}) {
 
   function closeModal(){
     setIsOpenDelete(false);
+    setIsOpenEdite(false);
   }
 
   function deleteData() {
@@ -61,12 +62,9 @@ function TodoListItem({item}) {
     }, [newValueTodo]);
 
     const done = useCallback(() => {
-      const cb = {
-        textDecoration: "line-through"
-      }
       fetch('http://localhost:3004/posts' + "/" + item.id, {
         body: JSON.stringify({
-          isDone: true,
+        isDone: true,
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -78,22 +76,10 @@ function TodoListItem({item}) {
 
   return (
     <li className="listItem">
-      <p style={checkedStatus}>{item.title}</p>
-      <button className="deleteButton" onClick={openModal} id="del">Delete</button>
-        <Modal
-          isOpen={modalIsOpenDelete}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
-            <div>Are u sure?</div>
-            <form>
-              <button onClick={deleteData}>Yes</button>
-              <button onClick={closeModal}>No</button>
-              </form>
-          </Modal>
+      <p>{item.title}</p>
       <button className="editeButton" onClick={openModal} id="edt">Edite</button>
         <Modal
+          autoFocus={false}
           isOpen={modalIsOpenEdite}
           onRequestClose={closeModal}
           style={customStyles}
@@ -101,16 +87,36 @@ function TodoListItem({item}) {
         >
             <div>Edite mode</div>
             <form onClick={done}>
-                <input
+              <input
+                autoFocus={true}
                 value={newValueTodo||item.title}
                 type="text"
                 onChange={onInputChange}
               />
-            <button className="chek" type="checkbox"></button>  // не работает
             <button onClick={editeData} id="save">Save</button>
             <button onClick={closeModal}>Cancel</button>
+            <div className="isDone">
+              <p> If it is done press sqr</p>
+              <input className="chek" type="checkbox" />
+            </div>
             </form>
-          </Modal>
+        </Modal>
+      <button className="deleteButton" onClick={openModal} id="del">&#10008;</button>
+        <Modal
+          isOpen={modalIsOpenDelete}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <div>
+            D E L E T E <br/>
+            Are u sure?
+          </div>
+            <form>
+              <button onClick={deleteData}>Yes</button>
+              <button onClick={closeModal}>No</button>
+            </form>
+        </Modal>
     </li>
   );
 }

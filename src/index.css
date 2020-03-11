@@ -37,6 +37,17 @@ header h2 {
   margin-left: 5px;
   border-radius: 5px;
 }
+#del {
+  color: red;
+  background: none;
+  border: 0;
+  height: 15px;
+  width: 15px;
+  margin-top: 0px;
+  margin-right: 0px;
+  border-radius: 0;
+  outline: none;
+}
 .h2-main {
   display: flex;
   justify-content: space-between;
@@ -49,10 +60,12 @@ input {
 footer {
   background-color: black;
   height: 100px;
+  width: 600px;
   font-size: 30px;
+  position: fixed;
+  bottom: 0;
 }
-footer p{
-  padding-top: 30px;
+footer p {
   color: blue;
   text-align: center;
 }
@@ -67,12 +80,16 @@ ul, li {
   list-style-type: none;
   margin-left: -15px;
 }
+.isDone {
+  display: flex;
+  justify-content: space-between;
+}
 .chek {
-
+    margin-top: 10px;
     width: 23px;
     height: 23px;
     position: relative;
-    margin-right: 20px; 
+    margin-right: 20px;
     background: #fcfff4;
     background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
     box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
@@ -80,7 +97,7 @@ ul, li {
       width: 20px;
       height: 20px;
       position: absolute;
-      top: 4px;
+      top: 10px;
       left: 4px;
       cursor: pointer;
       background: linear-gradient(top, #222 0%, #45484d 100%);
