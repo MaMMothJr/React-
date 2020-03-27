@@ -21,8 +21,6 @@ function TodoListItem({item}) {
     }
   };
 
-  let subtitle;
-
   function openModal(event) {
     event.target.id === "del" ? setIsOpenDelete(true) : setIsOpenEdite(true);
   }
@@ -33,7 +31,7 @@ function TodoListItem({item}) {
   }
 
   function deleteData() {
-    fetch('http://localhost:3004/posts' + "/" + item.id, {
+    fetch(`http://localhost:3004/posts/${item.id}`, {
       method: 'DELETE'
     }).then(response => {
       closeModal();
@@ -48,7 +46,7 @@ function TodoListItem({item}) {
   }, []);
 
   const editeData = useCallback(() => {
-    fetch('http://localhost:3004/posts' + "/" + item.id, {
+    fetch(`http://localhost:3004/posts/${item.id}`, {
         body: JSON.stringify({
           title: newValueTodo||item.title,
         }),
@@ -62,7 +60,7 @@ function TodoListItem({item}) {
 
     const done = useCallback(() => {
       if (item.isDone === false) {
-        fetch('http://localhost:3004/posts' + "/" + item.id, {
+        fetch(`http://localhost:3004/posts/${item.id}`, {
           body: JSON.stringify({
             isDone: true,
           }),
@@ -72,7 +70,7 @@ function TodoListItem({item}) {
           method: 'PATCH',
         });
       } else {
-        fetch('http://localhost:3004/posts' + "/" + item.id, {
+        fetch(`http://localhost:3004/posts/${item.id}`, {
           body: JSON.stringify({
             isDone: false,
           }),
@@ -84,9 +82,10 @@ function TodoListItem({item}) {
       }
   }, []);
 
+
   return (
     <li className="listItem">
-      <p>{item.title}</p>
+      <p className={(item.isDone)=> item.isDone === true? "done": "notDone")}>{item.title}</p>
       <button className="editeButton" onClick={openModal} id="edt">Edite</button>
         <Modal
           autoFocus={false}
