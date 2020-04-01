@@ -10,7 +10,7 @@ function Main () {
     fetch('http://localhost:3004/posts')
       .then(response => response.json())
       .then(text =>  setTasks(text))
-    },[newValueTodo])
+    },[newValueTodo]);
 
   const onInputChange = useCallback((event) => {
     setNewValueTodo(event.target.value);
@@ -18,19 +18,19 @@ function Main () {
 
   const addToTodo = useCallback((event) => {
     event.preventDefault();
-    fetch('http://localhost:3004/posts', {
-      body: JSON.stringify({
-        isDone: false,
-        title: newValueTodo,
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-    });
-    setNewValueTodo('');
-
-  }, [newValueTodo]);
+    if(newValueTodo.trim() !== '') {
+      fetch('http://localhost:3004/posts', {
+        body: JSON.stringify({
+          isDone: false,
+          title: newValueTodo,
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+      });
+      setNewValueTodo('');}
+   }, [newValueTodo]);
 
   return (
     <div>

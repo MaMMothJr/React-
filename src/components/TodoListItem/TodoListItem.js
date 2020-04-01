@@ -61,18 +61,7 @@ function TodoListItem({item}) {
     }, [item.id, item.title, newValueTodo]);
 
     const done = useCallback(() => {
-      if (item.isDone === false) {
-        fetch(`http://localhost:3004/posts/${item.id}`, {
-          body: JSON.stringify({
-            isDone: true,
-          }),
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          method: 'PATCH',
-        });
-        setTaskIsDone(true);
-        } else {
+      if (item.isDone !== false) {
         fetch(`http://localhost:3004/posts/${item.id}`, {
           body: JSON.stringify({
             isDone: false,
@@ -81,11 +70,19 @@ function TodoListItem({item}) {
             'Content-Type': 'application/json'
           },
           method: 'PATCH',
-        });
+        }).then(() => setTaskIsDone(false));
+      } else {
+        fetch(`http://localhost:3004/posts/${item.id}`, {
+          body: JSON.stringify({
+            isDone: true,
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          method: 'PATCH',
+        }).then(() => setTaskIsDone(true));
       }
-      setTaskIsDone(false);
-    }, [taskIsDone]);
-
+    }, []);
 
   return (
     <li className="listItem">
