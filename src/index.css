@@ -88,3 +88,10 @@ ul, li {
 .done {
   text-decoration: line-through;
 }
+
+.navig {
+  display: flex;
+  justify-content: space-around;
+  color: white;
+
+}

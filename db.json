@@ -1,53 +1,70 @@
 {
-  "posts": [
+  "main": [
     {
       "isDone": true,
-      "title": "31231231534532457eqweqweqweqweq",
-      "id": 12
+      "title": "423623",
+      "id": 30
     },
     {
       "isDone": false,
-      "title": "34535235",
-      "id": 16
+      "title": "745745747 64 ",
+      "id": 31
     },
     {
       "isDone": false,
-      "title": "3534",
-      "id": 18
-    },
-    {
-      "isDone": true,
-      "title": "NewTask31231211251\\afasdas",
-      "id": 23
+      "title": "41=41",
+      "id": 32
     },
     {
       "isDone": true,
-      "title": "4234234",
-      "id": 24
+      "title": "15251",
+      "id": 33
     },
     {
       "isDone": false,
-      "title": "6456",
-      "id": 26
-    },
-    {
-      "isDone": false,
-      "title": "7458456455345",
-      "id": 27
-    },
-    {
-      "isDone": false,
-      "title": "545345",
-      "id": 28
+      "title": "1251",
+      "id": 34
     },
     {
       "isDone": false,
       "title": "312312",
-      "id": 29
+      "id": 35
+    },
+    {
+      "isDone": false,
+      "title": "125125123",
+      "id": 36
     }
   ],
-  "comments": [],
-  "profile": {
-    "name": "typicode"
-  }
+  "isDone": [
+    {
+      "id": 37,
+      "isDone": false,
+      "title": "132312512"
+    },
+    {
+      "id": 32,
+      "isDone": false,
+      "title": "41=41"
+    },
+    {
+      "id": 33,
+      "isDone": false,
+      "title": "15251"
+    }
+  ],
+  "deleted": [
+    {
+      "id": 37,
+      "isDone": false,
+      "title": "132312512"
+    }
+  ],
+  "notDone": [
+    {
+      "id": 32,
+      "isDone": false,
+      "title": "41=41"
+    }
+  ]
 }

@@ -1,15 +1,12 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 import Modal from 'react-modal';
-import TodoList from '../TodoList/TodoList';
 import PropTypes from 'prop-types';
-import Main from '../Main/Main';
-// import api from '../../services/api';
 
 function TodoListItem({item}) {
 
   const [newValueTodo, setNewValueTodo] = useState('');
   const [modalIsOpenDelete,setIsOpenDelete] = useState(false);
-  const [modalIsOpenEdite,setIsOpenEdite] = useState(false);
+  const [modalIsOpenEdit,setIsOpenEdit] = useState(false);
   const [taskIsDone,setTaskIsDone] = useState(item.isDone);
 
   const customStyles = {
@@ -24,20 +21,34 @@ function TodoListItem({item}) {
   };
 
   function openModal(event) {
-    event.target.id === "del" ? setIsOpenDelete(true) : setIsOpenEdite(true);
+    event.target.id === "del" ? setIsOpenDelete(true) : setIsOpenEdit(true);
   }
 
   function closeModal() {
     setIsOpenDelete(false);
-    setIsOpenEdite(false);
+    setIsOpenEdit(false);
+  }
+
+  function goToDeleted() {
+    fetch('http://localhost:3004/deleted/', {
+      body: JSON.stringify({
+        id: item.id,
+        isDone: item.isDone,
+        title: item.title,
+       }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+    })
   }
 
   function deleteData() {
-    fetch(`http://localhost:3004/posts/${item.id}`, {
+    goToDeleted();
+    fetch(`http://localhost:3004/main/${item.id}`, {
       method: 'DELETE'
     }).then(response => {
       closeModal();
-      console.log('removed');
     }).catch(err => {
       console.error(err)
     });
@@ -47,8 +58,8 @@ function TodoListItem({item}) {
     setNewValueTodo(event.target.value);
   }, []);
 
-  const editeData = useCallback(() => {
-    fetch(`http://localhost:3004/posts/${item.id}`, {
+  const editData = useCallback(() => {
+    fetch(`http://localhost:3004/main/${item.id}`, {
         body: JSON.stringify({
           title: newValueTodo||item.title,
         }),
@@ -60,43 +71,83 @@ function TodoListItem({item}) {
       setNewValueTodo('');
     }, [item.id, item.title, newValueTodo]);
 
-    const done = useCallback(() => {
-      if (item.isDone !== false) {
-        fetch(`http://localhost:3004/posts/${item.id}`, {
-          body: JSON.stringify({
-            isDone: false,
-          }),
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          method: 'PATCH',
-        }).then(() => setTaskIsDone(false));
-      } else {
-        fetch(`http://localhost:3004/posts/${item.id}`, {
-          body: JSON.stringify({
-            isDone: true,
-          }),
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          method: 'PATCH',
-        }).then(() => setTaskIsDone(true));
-      }
-    }, []);
 
-  return (
+
+  function delFromToDone() {
+    fetch(`http://localhost:3004/isDone/${item.id}`, {
+      method: 'DELETE'
+    }).catch(err => {
+      console.error(err)
+    });
+  }
+
+  function delFromNotDone() {
+    fetch(`http://localhost:3004/notDone/${item.id}`, {
+      method: 'DELETE'
+    }).catch(err => {
+      console.error(err)
+    });
+  }
+
+  function goToDone(status) {
+    if (status === true) {
+      delFromNotDone();
+      fetch('http://localhost:3004/isDone/', {
+        body: JSON.stringify({
+          id: item.id,
+          isDone: item.isDone,
+          title: item.title,
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+      })
+    } else {
+      delFromToDone();
+      function goToNotDone(status) {
+        fetch('http://localhost:3004/notDone/', {
+          body: JSON.stringify({
+            id: item.id,
+            isDone: item.isDone,
+            title: item.title,
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          method: 'POST',
+        })
+      }
+    }
+  }
+  const done = useCallback(ev => {
+    const status = ev.target.checked;
+    goToDone(status);
+    fetch(`http://localhost:3004/main/${item.id}`, {
+      body: JSON.stringify({
+      isDone: status,
+        }),
+       headers: {
+            'Content-Type': 'application/json'
+          },
+          method: 'PATCH',
+        })
+         .then(() => setTaskIsDone(status));
+      }, []);
+
+    return (
     <li className="listItem">
-      <p className={item.isDone? "done": "notDone"}>{item.title}</p>
-      <input className="chek" type="checkbox" onChange={done} checked={taskIsDone||item.isDone}/>
-      <button className="editeButton" onClick={openModal} id="edt">Edite</button>
+      <p className={taskIsDone? "done": "notDone"}>{item.title}</p>
+      <input className="chek" type="checkbox" onClick={done} checked={taskIsDone}/>
+      <button className="editeButton" onClick={openModal} id="edt">Edit</button>
         <Modal
           autoFocus={false}
-          isOpen={modalIsOpenEdite}
+          isOpen={modalIsOpenEdit}
           onRequestClose={closeModal}
           style={customStyles}
           contentLabel="Example Modal"
         >
-            <div>Edite mode</div>
+            <div>Edit mode</div>
             <form >
               <input
                 autoFocus={true}
@@ -104,7 +155,7 @@ function TodoListItem({item}) {
                 type="text"
                 onChange={onInputChange}
               />
-            <button onClick={editeData} id="save">Save</button>
+            <button onClick={editData} id="save">Save</button>
             <button onClick={closeModal}>Cancel</button>
             <div className="isDone">
              </div>

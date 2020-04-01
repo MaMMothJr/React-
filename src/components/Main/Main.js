@@ -7,7 +7,7 @@ function Main () {
   const [newValueTodo, setNewValueTodo] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:3004/posts')
+    fetch('http://localhost:3004/main')
       .then(response => response.json())
       .then(text =>  setTasks(text))
     },[newValueTodo]);
@@ -19,7 +19,7 @@ function Main () {
   const addToTodo = useCallback((event) => {
     event.preventDefault();
     if(newValueTodo.trim() !== '') {
-      fetch('http://localhost:3004/posts', {
+      fetch('http://localhost:3004/main', {
         body: JSON.stringify({
           isDone: false,
           title: newValueTodo,
