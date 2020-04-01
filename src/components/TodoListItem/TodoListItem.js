@@ -3,12 +3,14 @@ import Modal from 'react-modal';
 import TodoList from '../TodoList/TodoList';
 import PropTypes from 'prop-types';
 import Main from '../Main/Main';
+// import api from '../../services/api';
 
 function TodoListItem({item}) {
 
   const [newValueTodo, setNewValueTodo] = useState('');
   const [modalIsOpenDelete,setIsOpenDelete] = useState(false);
   const [modalIsOpenEdite,setIsOpenEdite] = useState(false);
+  const [taskIsDone,setTaskIsDone] = useState(item.isDone);
 
   const customStyles = {
     content : {
@@ -56,7 +58,7 @@ function TodoListItem({item}) {
         method: 'PATCH',
       });
       setNewValueTodo('');
-    }, [newValueTodo]);
+    }, [item.id, item.title, newValueTodo]);
 
     const done = useCallback(() => {
       if (item.isDone === false) {
@@ -69,7 +71,8 @@ function TodoListItem({item}) {
           },
           method: 'PATCH',
         });
-      } else {
+        setTaskIsDone(true);
+        } else {
         fetch(`http://localhost:3004/posts/${item.id}`, {
           body: JSON.stringify({
             isDone: false,
@@ -80,12 +83,14 @@ function TodoListItem({item}) {
           method: 'PATCH',
         });
       }
-  }, []);
+      setTaskIsDone(false);
+    }, [taskIsDone]);
 
 
   return (
     <li className="listItem">
-      <p className={(item.isDone)=> item.isDone === true? "done": "notDone")}>{item.title}</p>
+      <p className={item.isDone? "done": "notDone"}>{item.title}</p>
+      <input className="chek" type="checkbox" onChange={done} checked={taskIsDone||item.isDone}/>
       <button className="editeButton" onClick={openModal} id="edt">Edite</button>
         <Modal
           autoFocus={false}
@@ -95,7 +100,7 @@ function TodoListItem({item}) {
           contentLabel="Example Modal"
         >
             <div>Edite mode</div>
-            <form onClick={done}>
+            <form >
               <input
                 autoFocus={true}
                 value={newValueTodo||item.title}
@@ -105,9 +110,7 @@ function TodoListItem({item}) {
             <button onClick={editeData} id="save">Save</button>
             <button onClick={closeModal}>Cancel</button>
             <div className="isDone">
-              <p> If it is done press sqr</p>
-              <input className="chek" type="checkbox" onSubmit={done} checked={item.isDone}/>
-            </div>
+             </div>
             </form>
         </Modal>
       <button className="deleteButton" onClick={openModal} id="del">&#10008;</button>
